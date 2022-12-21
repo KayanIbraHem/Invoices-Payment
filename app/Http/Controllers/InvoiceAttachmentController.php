@@ -37,8 +37,9 @@ class InvoiceAttachmentController extends Controller
     {
         $this->validate($request,[
             'file_name'=>'mimes:pdf,jpg,jpeg,png'
-        ],[
-           'file_name.mimes'=>'صيغه الملف غير مدعومة' 
+        ],
+        [
+            'file_name.mimes'=>'صيغه الملف غير مدعومة' 
         ]);
         if ($request->hasFile('file_name')) {
             $file = $request->file('file_name');

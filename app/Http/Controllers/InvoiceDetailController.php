@@ -108,4 +108,11 @@ class InvoiceDetailController extends Controller
         $downloadFile= Storage::disk('viewfile')->getDriver()->getAdapter()->applyPathPrefix($number.'/'.$name);
         return response()->download( $downloadFile);
     }
+
 }
+
+
+
+        // $st="Attachments";
+        // $pathToFile = public_path($st.'/'.$invoice_number.'/'.$file_name);
+        // return response()->file($pathToFile);

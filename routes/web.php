@@ -30,6 +30,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('invoices',InvoiceController::class);
 Route::get('invoices/create',[InvoiceController::class,'create'])->name('invoices.create');
 Route::get('sections/{id}', [InvoiceController::class,'getProducts']);
+Route::get('invoices/{invoice}/edit',[InvoiceController::class,'edit'])->name('invoices.edit');
+Route::put('invoices/{invoice}',[InvoiceController::class,'update'])->name('invoices.update');
+
 
 
 Route::resource('sections',SectionsController::class);
@@ -40,13 +43,14 @@ Route::delete('sections/{section}',[SectionsController::class,'destroy'])->name(
 
 Route::resource('products',ProductController::class);
 // Route::post('products',[ProductController::class,'store'])->name('products.store');
-Route::put('products/{product}',[ProductController::class,'update'])->name('products.update');
+// Route::put('products/{product}',[ProductController::class,'update'])->name('products.update');
 Route::delete('products/{product}',[ProductController::class,'destroy'])->name('products.destroy');
 
 Route::get('invoices/{invoice}/details',[InvoiceDetailController::class,'show'])->name('invoice.details');
 Route::get('invoices/viewfile/{number}/{name}',[InvoiceDetailController::class,'viewFile'])->name('invoices.viewfile');
 Route::get('invoices/downloadfile/{number}/{name}',[InvoiceDetailController::class,'downloadFile'])->name('invoices.downloadfile');
 Route::post('invoices/files',[InvoiceDetailController::class,'destroy'])->name('files.destroy');
+
 
 Route::post('invoices/attachments',[InvoiceAttachmentController::class,'store'])->name('invoicesattachments.store');
 

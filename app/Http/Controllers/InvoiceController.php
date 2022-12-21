@@ -108,9 +108,14 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit($id)
     {
-        //
+        $invoices=Invoice::where('id',$id)->first();
+        $sections=sections::all();
+        return view('invoices.edit',[
+            'invoice'=>$invoices,
+            'sections'=>$sections
+        ]);
     }
 
     /**
@@ -122,7 +127,21 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        // $invoice->find($invoiceID);
+        $invoice->invoice_number=$request->invoice_number;
+        $invoice->invoice_date=$request->invoice_Date;
+        $invoice->due_date=$request->Due_date;
+        $invoice->product=$request->product;
+        $invoice->section_id=$request->Section;
+        $invoice->amount_collection=$request->Amount_collection;
+        $invoice->amount_commission=$request->Amount_Commission;
+        $invoice->discount=$request->Discount;
+        $invoice->rate_vat=$request->Rate_VAT;
+        $invoice->value_vat=$request->Value_VAT;
+        $invoice->total=$request->Total;
+        $invoice->note=$request->note;
+        $invoice->save();
+        return back()->with('edit','تم التعديل بنجاح');
     }
 
     /**
@@ -131,9 +150,16 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
-    {
-        //
+    public function destroy(Request $request)
+    {   
+        $invoiceID=$request->id;
+        $invoice=Invoice::find($invoiceID);
+        $invoice->delete();
+        return back()->with('delete','تمت عمليه الحذف');
+
+        // return $request;
+
+
     }
     public function getProducts($id)
     {

@@ -39,6 +39,14 @@
                             </ul>
                         </div>
                     @endif
+                    @if (session('Add'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('Add') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
                     @if (session('delete'))
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
                         <strong>{{ session('delete') }}</strong>
@@ -104,7 +112,6 @@
                                                                         @endif	
                                                                     </td>
                                                                     <td>{{$invoice->note?$invoice->note:'لا توجد ملاحظات'}}</td>
-                                                                    
                                                                 </tr>
                                                         </tbody>
                                                     </table>
