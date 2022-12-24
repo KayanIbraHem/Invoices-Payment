@@ -54,15 +54,24 @@
 										</button>
 									</div>
 									@endif				
-
 									@if (session('edit'))
+										<script>
+											window.onload = function() {
+												notif({
+													msg: "تم تغير حالة الدفع بنجاح",
+													type: "success"
+												})
+											}
+										</script>
+									@endif
+									<!-- @if (session('edit'))
 									<div class="alert alert-success alert-dismissible fade show" role="alert">
 										<strong>{{ session('edit') }}</strong>
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
-									@endif
+									@endif -->
 
 									<!-- @if (session('delete'))
 									<div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -123,9 +132,11 @@
 													<td>{{$invoice->total}}</td>
 													<td>
 														@if($invoice->value_status == 1)
-															<span class="text-success">مدفوعة</span>
+															<span class="badge badge-pill badge-success">مدفوعة</span>
 														@elseif($invoice->value_status == 2)
-															<span class="text-danger">غير مدفوعة</span>
+															<span class="badge badge-pill badge-danger">غير مدفوعة</span>
+														@elseif($invoice->value_status == 3)
+														<span class="badge badge-pill badge-warning">مدفوعة جزئيا</span>
 														@else
 															<span class="text-warning">{{$invoice->status}}</span>	
 														@endif	
@@ -137,12 +148,19 @@
 														<button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-primary btn-sm"
 														data-toggle="dropdown" id="droprightMenuButton" type="button">العمليات <i class="fas fa-caret-down ml-1"></i></button>
 														<div  class="dropdown-menu tx-13">
-															<a class="dropdown-item" href="{{route('invoices.edit',['invoice'=>$invoice->id])}}">تعديل</a>
+															<a class="dropdown-item" href="{{route('invoices.edit',['invoice'=>$invoice->id])}}">
+															<i
+                                                            class="bx bx-edit"></i>&nbsp;&nbsp;
+															تعديل
+															</a>
 															<a class="dropdown-item" href=""
 															data-invoice_id="{{$invoice->id}}"
                                                             data-toggle="modal" data-target="#delete_invoice"><i
                                                             class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف
                                                             الفاتورة</a>
+															<a class="dropdown-item"
+                                                            href="{{route('invoices.show',['invoice'=>$invoice->id])}}"><i
+                                                                class=" text-success fas fa-money-bill"></i>&nbsp;&nbsp;تغير حالةالدفع</a>
 														</div>
 													</div>
 													</td>

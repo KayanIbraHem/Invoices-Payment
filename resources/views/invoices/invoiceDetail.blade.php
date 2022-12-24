@@ -107,6 +107,8 @@
                                                                             <span class="badge badge-pill badge-success">مدفوعة</span>
                                                                         @elseif($invoice->value_status == 2)
                                                                             <span class="badge badge-pill badge-danger">غير مدفوعة</span>
+                                                                        @elseif($invoice->value_status == 3)
+                                                                        <span class="badge badge-pill badge-danger">مدفوعة جزئيا</span>
                                                                         @else
                                                                             <span class="badge badge-pill badge-warning">{{$invoice->status}}</span>	
                                                                         @endif	
@@ -146,6 +148,8 @@
                                                                             <span class="badge badge-pill badge-success">مدفوعة</span>
                                                                         @elseif($detail->value_status == 2)
                                                                             <span class="badge badge-pill badge-danger">غير مدفوعة</span>
+                                                                        @elseif($detail->value_status == 3)
+                                                                        <span class="badge badge-pill badge-warning">مدفوعة جزئيا</span>
                                                                         @else
                                                                             <span class="badge badge-pill badge-warning">{{$detail->status}}</span>	
                                                                         @endif	

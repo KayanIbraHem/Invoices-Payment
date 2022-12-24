@@ -32,6 +32,8 @@ Route::get('invoices/create',[InvoiceController::class,'create'])->name('invoice
 Route::get('sections/{id}', [InvoiceController::class,'getProducts']);
 Route::get('invoices/{invoice}/edit',[InvoiceController::class,'edit'])->name('invoices.edit');
 Route::put('invoices/{invoice}',[InvoiceController::class,'update'])->name('invoices.update');
+Route::get('invoices/{invoice}/show',[InvoiceController::class,'show'])->name('invoices.show');
+Route::post('invoices/{invoice}/update',[InvoiceController::class,'updateStatus'])->name('invoices.statusUpdate');
 
 
 

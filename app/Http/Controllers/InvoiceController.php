@@ -7,6 +7,8 @@ use App\Models\sections;
 use App\Models\InvoiceDetail;
 use App\Models\InvoiceAttachment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -97,9 +99,12 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
-        //
+        $invoice=Invoice::where('id',$id)->first();
+        return view('invoices.show',[
+            'invoice'=>$invoice
+        ]);
     }
 
     /**
@@ -143,7 +148,34 @@ class InvoiceController extends Controller
         $invoice->save();
         return back()->with('edit','تم التعديل بنجاح');
     }
+    public function updateStatus($id, Request $request)
+    {
+        $invoices = Invoice::findOrFail($id);
+        $invoicesDetails=new InvoiceDetail(); 
 
+        if ($invoices->value_status != $request->value_status) {
+
+          
+            $invoices->value_status=$request->value_status;
+            $invoices->payment_date=$request->payment_date;
+            $invoices->save();
+
+            
+            $invoicesDetails->invoice_id= $request->invoice_id;
+            $invoicesDetails->invoice_number= $request->invoice_number;
+            $invoicesDetails->product=$request->product;
+            $invoicesDetails->section= $request->section;
+            $invoicesDetails->value_status=$request->value_status;
+            $invoicesDetails->note=$request->note;
+            $invoicesDetails->payment_date= $request->payment_date;
+            $invoicesDetails->user=\Auth::user()->name;
+            $invoicesDetails->save();
+        }else{
+            return back()->with('error','a');
+        }
+        return redirect('/invoices')->with('edit','a');
+
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -154,10 +186,16 @@ class InvoiceController extends Controller
     {   
         $invoiceID=$request->id;
         $invoice=Invoice::find($invoiceID);
-        $invoice->delete();
+        $attachment=InvoiceAttachment::where('invoice_id',$invoiceID)->first();
+
+        if(!empty($attachment->invoice_number)){
+            Storage::disk('viewfile')->deleteDirectory($attachment->invoice_number);     
+        }
+
+        $invoice->forcedelete();
         return back()->with('delete','تمت عمليه الحذف');
 
-        // return $request;
+        
 
 
     }
